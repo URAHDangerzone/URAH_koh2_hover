@@ -4,7 +4,7 @@ namespace URAH_Hover
 {
     /// <summary>
     /// In the world view the province under the mouse only gets a slight brightening (VerticalTint
-    /// shader, see HoverShaderPatch), easy to miss. This also outlines it with the highlight border the
+    /// shader), easy to miss. This also outlines it with the highlight border the
     /// political view uses for the selected province (MapData.h_realm_borders, selection_highlight_color),
     /// coasts included. In the world view vanilla keeps all of those borders switched off.
     /// The renderer is set up for the political view: lines flat at height 0 (snap_to_terrain off, under

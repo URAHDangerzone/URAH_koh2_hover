@@ -11,14 +11,8 @@
 
   <Import Project="$(URAHShared)/URAH.Plugin.props" />
 
-  <ItemGroup>
-    <Reference Include="UnityEngine.AssetBundleModule" HintPath="$(ManagedDir)/UnityEngine.AssetBundleModule.dll" Private="false" />
-  </ItemGroup>
-
   <Target Name="Deploy" AfterTargets="Build" Condition="'$(Deploy)' == 'true'">
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(BepInExPlugins)/URAH_Hover" />
-    <!-- built from the game's own shader by tools/make_hover_shader.py -->
-    <Copy SourceFiles="bin/hover_shader.bundle" DestinationFolder="$(BepInExPlugins)/URAH_Hover" Condition="Exists('bin/hover_shader.bundle')" />
   </Target>
 
 </Project>
