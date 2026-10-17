@@ -19,7 +19,7 @@ namespace URAH_Hover
     {
         public const string Guid = "urah.koh2.hover";
         public const string Name = "URAH_Hover";
-        public const string Version = "0.1.0";
+        public const string Version = URAH.BuildVersion.Value; // plugin/version.txt
 
         internal static ManualLogSource Log;
 
