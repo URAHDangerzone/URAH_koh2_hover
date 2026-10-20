@@ -13,8 +13,9 @@ BepInEx 5 in the game folder, then `URAH_Hover.dll` into `BepInEx/plugins/URAH_H
 
 ## Releases
 
-Built and signed releases are in [URAH_koh2_releases](https://github.com/URAHDangerzone/URAH_koh2_releases/releases): [`URAH_Hover-v<version>`](https://github.com/URAHDangerzone/URAH_koh2_releases/releases?q=URAH_Hover&expanded=true) is this plugin alone
-(`BepInEx/plugins/URAH_Hover/`), [`URAH_Starter`](https://github.com/URAHDangerzone/URAH_koh2_releases/releases?q=URAH_Starter&expanded=true) bundles BepInEx 5 with URAH_Loader, URAH_Net and URAH_Hover.
+Built and signed releases are in [URAH_koh2_releases](https://github.com/URAHDangerzone/URAH_koh2_releases/releases?q=URAH_Hover&expanded=true): [`URAH_Hover-v<version>`](https://github.com/URAHDangerzone/URAH_koh2_releases/releases?q=URAH_Hover&expanded=true) is this plugin alone
+(`BepInEx/plugins/URAH_Hover/`), [`URAH_Starter`](https://github.com/URAHDangerzone/URAH_koh2_releases/releases?q=URAH_Starter&expanded=true) bundles BepInEx 5 with URAH_Loader, URAH_Net and
+URAH_PluginManager, which installs this plugin from Settings → Plugins (URAH).
 Every release is signed with the URAH release key; [URAH_koh2_releases](https://github.com/URAHDangerzone/URAH_koh2_releases) explains how to check it.
 
 ## Building
