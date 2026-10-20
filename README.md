@@ -4,7 +4,8 @@ A BepInEx 5 plugin for **Knights of Honor II: Sovereign** that makes the provinc
 the world view easier to see: it gets the outline the political view uses for the selected province.
 Needs no mod, works with any map and in vanilla.
 
-Setting in `BepInEx/config/urah.koh2.hover.cfg`: `Outline` switches it on and off.
+Settings in `BepInEx/config/urah.koh2.hover.cfg`: `[General] Enabled` switches the plugin on and off,
+`[Hover] Outline` the outline. Both take effect right away, no restart needed.
 
 ## Install
 

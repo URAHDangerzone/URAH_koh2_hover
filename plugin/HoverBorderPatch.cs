@@ -17,6 +17,7 @@ namespace URAH_Hover
         private const float WorldViewWidth = 3f;
 
         private static int shownRealm;
+        private static MapData shownMap;
         private static BordersBatching styled;
         private static float pvWidth;
         private static bool pvSnap;
@@ -27,6 +28,7 @@ namespace URAH_Hover
             {
                 return;
             }
+            shownMap = map;
             bool worldView = !ViewMode.IsPoliticalView();
             SetStyle(map.h_realm_borders, worldView);
             int want = 0;
@@ -56,8 +58,11 @@ namespace URAH_Hover
                 pvWidth = h.width;
                 pvSnap = h.snap_to_terrain;
             }
-            float width = worldView ? WorldViewWidth : pvWidth;
-            bool snap = worldView || pvSnap;
+            SetStyle(h, worldView ? WorldViewWidth : pvWidth, worldView || pvSnap);
+        }
+
+        private static void SetStyle(BordersBatching h, float width, bool snap)
+        {
             if (h.width == width && h.snap_to_terrain == snap)
             {
                 return;
@@ -83,6 +88,28 @@ namespace URAH_Hover
                     map.h_realm_borders.SetActiveBorder(r, other, on, !on && other.IsSeaRealm());
                 }
             }
+        }
+
+        /// <summary>
+        /// After the patches came off: takes the outline shown right now away and gives the renderer the
+        /// scene's style back, else both stay until the vanilla rules next rewrite the borders.
+        /// </summary>
+        internal static void Clear()
+        {
+            // Unity null: the map is gone with its campaign
+            if (shownMap != null && shownMap.h_realm_borders != null)
+            {
+                BordersBatching h = shownMap.h_realm_borders;
+                SetBorders(shownMap, Realm.Get(shownRealm), false);
+                if (h == styled)
+                {
+                    SetStyle(h, pvWidth, pvSnap);
+                }
+                h.MarkDirty(reload: false, refresh_buffers: true);
+            }
+            shownRealm = 0;
+            shownMap = null;
+            styled = null;
         }
 
         /// <summary>These rewrite h_realm_borders by the vanilla rules, which leave them off in the world view.</summary>

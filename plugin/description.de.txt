@@ -1,0 +1,1 @@
+Umrandet die Provinz unter der Maus in der Weltansicht, wie die politische Ansicht die ausgewählte Provinz.

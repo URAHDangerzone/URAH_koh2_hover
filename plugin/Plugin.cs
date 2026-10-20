@@ -8,8 +8,9 @@ namespace URAH_Hover
 {
     /// <summary>
     /// Makes the province under the mouse in the world view easier to see: an outline like the political
-    /// view's selection (HoverBorderPatch). Always on, no ModLink: it changes no game data, so it works
-    /// with any map and mod list, vanilla included.
+    /// view's selection (HoverBorderPatch). No ModLink: it changes no game data, so it works with any map
+    /// and mod list, vanilla included. [General] Enabled switches it on and off at runtime (the
+    /// URAH_PluginManager convention): the patches come off and the outline drawn right now is cleared.
     ///
     /// Patching MapData at load is safe: it has no static constructor that reads defs, settings or the
     /// ModManager (unlike UserSettings, see URAH_Zoom).
@@ -23,20 +24,46 @@ namespace URAH_Hover
 
         internal static ManualLogSource Log;
 
+        private ConfigEntry<bool> enabledSetting, outline;
+        private Harmony harmony;
+        private bool active;
+
         private void Awake()
         {
             Log = Logger;
-            ConfigEntry<bool> border = Config.Bind("Hover", "Outline", true,
+            enabledSetting = Config.Bind("General", "Enabled", true,
+                "Switch the plugin on and off (takes effect right away)");
+            outline = Config.Bind("Hover", "Outline", true,
                 "Outline the province under the mouse in the world view");
-            if (border.Value)
+            harmony = new Harmony(Guid);
+            enabledSetting.SettingChanged += (sender, e) => Apply();
+            outline.SettingChanged += (sender, e) => Apply();
+            Apply();
+            Log.LogInfo($"{Name} {Version} loaded, {(enabledSetting.Value ? "enabled" : "disabled")}, outline {(outline.Value ? "on" : "off")}");
+        }
+
+        /// <summary>Patches on while Enabled and Outline are both on, off (outline cleared) otherwise.</summary>
+        private void Apply()
+        {
+            bool want = enabledSetting.Value && outline.Value;
+            if (want == active)
             {
-                var harmony = new Harmony(Guid);
+                return;
+            }
+            active = want;
+            if (want)
+            {
                 foreach (Type patch in typeof(HoverBorderPatch).GetNestedTypes(AccessTools.all))
                 {
                     Patch(harmony, patch);
                 }
             }
-            Log.LogInfo($"{Name} {Version} loaded, outline {(border.Value ? "on" : "off")}");
+            else
+            {
+                harmony.UnpatchSelf();
+                HoverBorderPatch.Clear();
+            }
+            Log.LogInfo($"Outline {(want ? "patched" : "unpatched")}");
         }
 
         /// <summary>Each patch on its own, so one that no longer fits the game does not take the others with it.</summary>
